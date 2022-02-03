@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+</head>
+<body>
+<div class="ui text container" style="padding-top: 100px" id="app">
+    <h1 class="ui dividing header">Rumus Mencari Luas Bangunan</h1>
+
+    <h3 class="first">Selamat Datang dihalaman Dashboard</h3>
+    <p>Ini adalah aplikasi untuk mencari luas bangunan (persegi/lingkaran/segitiga).
+        coding ini mengunakan bahasa <code>GOLang</code>
+        menggunakan pendekatan <code>CleanArchitect</code>
+    </p>
+
+    <div class="ui three column grid">
+        <div class="column">
+            <div class="ui raised segment">
+                <a class="ui red ribbon label">[[totalPersegi]]x</a>
+                <span>Rumus Luas Persegi</span>
+
+                <p v-if="totalAll > 0">
+                <div class="ui center statistic">
+                    <div class="value">
+                        <span v-if="totalAll > 0">
+                        [[ (totalPersegi / totalAll * 100).toFixed(2) ]]%
+                        </span>
+                        <span v-else>0%</span>
+                    </div>
+                    <div class="label" style="padding-top: 20px">
+                        <a :href="host + '/hitung/persegi'" class="fluid ui red small button">
+                            Cari Luas Persegi
+                        </a>
+                    </div>
+                </div>
+                </p>
+                <p v-else>0 %</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui raised segment">
+                <a class="ui blue ribbon label">[[totalLingkaran]]x</a>
+                <span>Rumus Luas Lingkaran</span>
+
+                <p v-if="totalAll > 0">
+                <div class="ui center statistic">
+                    <div class="value">
+                        <span v-if="totalAll > 0">
+                        [[ (totalLingkaran / totalAll * 100).toFixed(2) ]]%
+                        </span>
+                        <span v-else>0%</span>
+                    </div>
+                    <div class="label" style="padding-top: 20px">
+                        <a :href="host + '/hitung/lingkaran'" class="fluid ui blue small button">
+                            Cari Luas Lingkaran
+                        </a>
+                    </div>
+                </div>
+                </p>
+                <p v-else>0 %</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui raised segment">
+                <a class="ui teal ribbon label">[[totalSegitiga]]x</a>
+                <span>Rumus Luas Segitiga</span>
+
+                <p v-if="totalAll > 0">
+                <div class="ui center statistic">
+                    <div class="value">
+                        <span v-if="totalAll > 0">
+                        [[ (totalSegitiga / totalAll * 100).toFixed(2) ]]%
+                        </span>
+                        <span v-else>0%</span>
+                    </div>
+                    <div class="label" style="padding-top: 20px">
+                        <a :href="host + '/hitung/segitiga'" class="fluid ui teal small button">
+                            Cari Luas Segitiga
+                        </a>
+                    </div>
+                </div>
+                </p>
+                <p v-else>0 %</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column" style="text-align: center; padding-top: 50px">
+        <div class="ui statistic">
+            <div class="value">
+                [[ totalAll ]]
+            </div>
+            <div class="label">
+                Total Semua Perhitungan
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data: {
+            host: "http://localhost:3000",
+            totalPersegi: 0,
+            totalLingkaran: 0,
+            totalSegitiga: 0,
+            totalAll: 0,
+        },
+        created() {
+            this.getHistoryPersegi();
+            this.getHistoryLingkaran();
+            this.getHistorySegitiga();
+        },
+        methods: {
+            calcuateTotalAll() {
+                this.totalAll = this.totalPersegi + this.totalSegitiga + this.totalLingkaran;
+            },
+            getHistoryPersegi() {
+                axios.get(`${this.host}/calculate/persegi/history`)
+                    .then(response => {
+                        this.totalPersegi = response.data.results.total
+                        this.calcuateTotalAll()
+                    })
+            },
+            getHistoryLingkaran() {
+                axios.get(`${this.host}/calculate/lingkaran/history`)
+                    .then(response => {
+                        this.totalLingkaran = response.data.results.total
+                        this.calcuateTotalAll()
+                    })
+            },
+            getHistorySegitiga() {
+                axios.get(`${this.host}/calculate/segitiga/history`)
+                    .then(response => {
+                        this.totalSegitiga = response.data.results.total
+                        this.calcuateTotalAll()
+                    })
+            }
+        }
+    })
+</script>
+</body>
+</html>

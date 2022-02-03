@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+</head>
+<body>
+<div class="ui text container" style="padding-top: 100px" id="app">
+    <h1 class="ui dividing header">Rumus Mencari Luas Persegi</h1>
+
+    <form class="ui form">
+        <div class="field">
+            <label>Masukkan Parameter</label>
+            <div class="two fields">
+                <div class="field">
+                    <input aria-label="panjang" type="number" placeholder="Panjang" v-model="panjang">
+                </div>
+                <div class="field">
+                    <input aria-label="lebar" type="number" placeholder="Lebar" v-model="lebar">
+                </div>
+            </div>
+
+            <button @click="submit" type="button" class="ui red small button">Hitung</button>
+            <br>
+            <div class="ui center statistic" v-if="hasil != 0">
+                <div class="value">
+                    [[ hasil ]]
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <table class="ui celled table">
+        <thead>
+        <tr>
+            <th>Panjang</th>
+            <th>Lebar</th>
+            <th>Hasil</th>
+            <th>Tanggal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="d in dataHistory">
+            <td>[[ d.panjang ]]</td>
+            <td>[[ d.lebar ]]</td>
+            <td>[[ d.hasil ]]</td>
+            <td>[[ d.datetime ]]</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a :href="host + '/index'" class="ui grey small button">Back</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data: {
+            host: "http://localhost:3000",
+            panjang: null,
+            lebar: null,
+            hasil: 0,
+            dataHistory: [],
+            totalHistory: 0,
+        },
+        created() {
+            this.getHistoryPersegi();
+        },
+        methods: {
+            getHistoryPersegi() {
+                axios.get(`${this.host}/calculate/persegi/history`)
+                    .then(response => {
+                        this.dataHistory = response.data.results.data
+                        this.totalHistory = response.data.results.total
+                    })
+            },
+            resetForm() {
+                this.panjang = null;
+                this.lebar = null;
+            },
+            submit() {
+                axios.post(`${this.host}/calculate/persegi`, {
+                    panjang: parseFloat(this.panjang),
+                    lebar: parseFloat(this.lebar),
+                }).then(response => {
+                    this.resetForm()
+                    this.getHistoryPersegi();
+                    this.hasil = response.data.results.hasil
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>
