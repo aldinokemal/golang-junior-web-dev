@@ -20,8 +20,8 @@ Buat Rumus untuk mencari bangun datar yang didukung adalah segitiga, persegi, da
 
 1. Halaman Dashboard ![Halaman Dashboard](https://i.ibb.co/rvjd1CX/Screen-Shot-2022-02-03-at-13-15-25.png)
 2. Halaman Hitung Persegi ![Halaman Hitung Persegi](https://i.ibb.co/SPTFFxb/Screen-Shot-2022-02-03-at-13-15-44.png)
-3. Halaman Hitung Lingkaran ![Halaman Hitung Lingkaran](https://i.ibb.co/P4Ys58G/Screen-Shot-2022-02-03-at-13-16-18.png)
-4. Halaman Hitung Segitiga ![Halaman Hitung Segitiga](https://i.ibb.co/gMvgSMS/Screen-Shot-2022-02-03-at-13-16-35.png)
+3. Halaman Hitung Lingkaran ![Halaman Hitung Lingkaran](https://i.ibb.co/q9nLRwY/Screen-Shot-2022-02-03-at-13-16-18.png)
+4. Halaman Hitung Segitiga ![Halaman Hitung Segitiga](https://i.ibb.co/3yfhpyp/Screen-Shot-2022-02-03-at-13-16-35.png)
 
 ### How To Run
 
